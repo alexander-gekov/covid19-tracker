@@ -1989,15 +1989,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    console.log('Component mounted.');
+    var _this = this;
+
+    axios.get('https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats').then(function (response) {
+      _this.worldData = response.data.data; //console.log(response.data.data);
+    });
+    axios.get('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?limit=206').then(function (response) {
+      _this.countryData = response.data.data.rows;
+      _this.selectedCountryData = response.data.data.rows[1];
+      console.log(_this.countryData);
+    });
+  },
+  data: function data() {
+    return {
+      worldData: [],
+      countryData: [],
+      selectedCountry: 'Bulgaria',
+      selectedCountryData: []
+    };
+  },
+  methods: {
+    selectCountry: function selectCountry(country) {
+      this.selectedCountryData = country;
+      console.log(country);
+    }
   }
 });
 
@@ -38292,7 +38309,301 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    {
+      staticClass:
+        "tracker-container font-sans w-11/12 lg:w-7/12 overflow-hidden bg-gray-400 shadow-lg rounded-lg mb-4"
+    },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "tracker flex h-78 lg:h-72" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "country-container flex flex-1 flex-col overflow-hidden w-1/3 lg:w-1/4 bg-gray-800 text-white"
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "py-2 px-4 bg-gray-900 font-bold text-center" },
+              [_vm._v("Country")]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "countries flex-1 overflow-y-scroll sidebar-countries"
+              },
+              _vm._l(this.countryData, function(country) {
+                return _c(
+                  "a",
+                  {
+                    staticClass: "flex py-2 px-2 hover:bg-gray-700",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.selectCountry(country)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "px-2 py-2" }, [
+                      _c("img", {
+                        staticClass: "w-8 lg:w-12",
+                        attrs: { src: country.flag, alt: "" }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "pt-2 text-sm" }, [
+                      _vm._v(_vm._s(country.country))
+                    ])
+                  ]
+                )
+              }),
+              0
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "info w-2/3 lg:w-3/4 bg-gray-300" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "world bg-gray-800 lg:flex justify-between mb-6 text-white pr-16 pb-2"
+            },
+            [
+              _c("div", { staticClass: "py-2 px-4 font-bold justify-center" }, [
+                _vm._v("World")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "flex bg-gray-100 rounded-lg m-2 lg:w-1/5 shadow-lg text-black justify-between"
+                },
+                [
+                  _c("div", { staticClass: "px-2" }, [_vm._v("Total:")]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "text-center bg-gray-500 rounded-lg text-right px-2"
+                    },
+                    [_vm._v(_vm._s(this.worldData.total_cases))]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "flex bg-gray-100 rounded-lg m-2 lg:w-1/5 shadow-lg text-black justify-between"
+                },
+                [
+                  _c("div", { staticClass: "px-2" }, [_vm._v("Deaths:")]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "text-center bg-gray-500 rounded-lg text-right px-2"
+                    },
+                    [_vm._v(_vm._s(this.worldData.death_cases))]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "flex bg-gray-100 rounded-lg m-2 lg:w-1/5 shadow-lg text-black justify-between"
+                },
+                [
+                  _c("div", { staticClass: "px-2" }, [_vm._v("Recovered:")]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "text-center bg-gray-500 rounded-lg text-right px-2"
+                    },
+                    [_vm._v(_vm._s(this.worldData.recovery_cases))]
+                  )
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "selected-country flex justify-center" }, [
+            _vm._v(
+              "\n        Selected country: " +
+                _vm._s(this.selectedCountryData.country) +
+                "\n      "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "total lg:flex px-2 lg:px-10 pt-4 lg:pt-16 lg:pb-12 justify-between mb-4"
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "bg-gray-100 rounded-lg px-2 py-2 w-100 lg:w-40 shadow-lg mb-2 "
+                },
+                [
+                  _c("div", { staticClass: "pb-2 text-center" }, [
+                    _vm._v("Total cases:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "flex align-items-center text-center bg-gray-300 rounded-lg pl-3"
+                    },
+                    [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(this.selectedCountryData.total_cases) +
+                          "\n            "
+                      ),
+                      this.selectedCountryData.new_cases != 0
+                        ? _c("span", { staticClass: "py-1 pl-2" }, [
+                            _c("img", {
+                              attrs: {
+                                src: "/img/uparrow.png",
+                                width: "10",
+                                alt: ""
+                              }
+                            })
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      this.selectedCountryData.new_cases != 0
+                        ? _c("span", { staticClass: "text-red-700" }, [
+                            _c("sup", [
+                              _vm._v(_vm._s(this.selectedCountryData.new_cases))
+                            ])
+                          ])
+                        : _vm._e()
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "bg-gray-100 rounded-lg px-2 py-2 w-75 lg:w-1/4 shadow-lg mb-2"
+                },
+                [
+                  _c("div", { staticClass: "pb-2 text-center" }, [
+                    _vm._v("Total deaths:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "flex align-items-center text-center bg-gray-300 rounded-lg pl-3"
+                    },
+                    [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(this.selectedCountryData.total_deaths) +
+                          "\n            "
+                      ),
+                      this.selectedCountryData.new_deaths != 0
+                        ? _c("span", { staticClass: "py-1 pl-2" }, [
+                            _c("img", {
+                              attrs: {
+                                src: "/img/uparrow.png",
+                                width: "10",
+                                alt: ""
+                              }
+                            })
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      this.selectedCountryData.new_deaths != 0
+                        ? _c("span", { staticClass: "text-red-700" }, [
+                            _c("sup", [
+                              _vm._v(
+                                _vm._s(this.selectedCountryData.new_deaths)
+                              )
+                            ])
+                          ])
+                        : _vm._e()
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "bg-gray-100 rounded-lg px-2 py-2 w-75 lg:w-1/4 shadow-lg lg:mb-2"
+                },
+                [
+                  _c("div", { staticClass: "pb-2 text-center" }, [
+                    _vm._v("Total recovered:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "text-center bg-gray-300 rounded-lg" },
+                    [_vm._v(_vm._s(this.selectedCountryData.total_recovered))]
+                  )
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "active lg:flex px-2 lg:px-10 justify-around" },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "bg-gray-100 rounded-lg px-2 py-2 w-100 lg:w-1/2 shadow-lg"
+                },
+                [
+                  _c("div", { staticClass: "pb-2 text-center" }, [
+                    _vm._v("Active cases:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "text-center bg-gray-300 rounded-lg" },
+                    [_vm._v(_vm._s(this.selectedCountryData.active_cases))]
+                  )
+                ]
+              )
+            ]
+          )
+        ])
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
@@ -38301,318 +38612,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      {
-        staticClass:
-          "tracker-container font-sans w-11/12 lg:w-7/12 overflow-hidden bg-gray-400 shadow-lg rounded-lg"
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "top-image", staticStyle: { height: "200px" } },
-          [_c("img", { attrs: { src: "/img/medical.svg", alt: "" } })]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "tracker flex h-72" }, [
-          _c(
-            "div",
-            {
-              staticClass:
-                "country-container flex flex-1 flex-col overflow-hidden w-1/4 bg-gray-800 text-white"
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "py-2 px-4 bg-gray-900 font-bold text-center" },
-                [_vm._v("Country")]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "countries flex-1 overflow-y-scroll sidebar-countries"
-                },
-                [
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("USA")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("Spain")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("USA")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("Spain")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("USA")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("Spain")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("USA")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("Spain")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("USA")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("Spain")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("USA")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("Spain")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("USA")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("Spain")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("USA")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("Spain")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("USA")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2 px-4 hover:bg-gray-700" }, [
-                    _vm._v("Spain")
-                  ])
-                ]
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "info w-3/4 bg-gray-300" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "world bg-gray-800 flex justify-between mb-4 text-white pr-6"
-              },
-              [
-                _c("div", { staticClass: "py-2 px-4 font-bold text-center" }, [
-                  _vm._v("World")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "flex bg-gray-100 rounded-lg m-2 w-1/5 shadow-lg text-black justify-between"
-                  },
-                  [
-                    _c("div", { staticClass: "px-2" }, [_vm._v("Total:")]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "text-center bg-gray-500 rounded-lg text-right px-2"
-                      },
-                      [_vm._v("130")]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "flex bg-gray-100 rounded-lg m-2 w-1/5 shadow-lg text-black justify-between"
-                  },
-                  [
-                    _c("div", { staticClass: "px-2" }, [_vm._v("Deaths:")]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "text-center bg-gray-500 rounded-lg text-right px-2"
-                      },
-                      [_vm._v("130")]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "flex bg-gray-100 rounded-lg m-2 w-1/5 shadow-lg text-black justify-between"
-                  },
-                  [
-                    _c("div", { staticClass: "px-2" }, [_vm._v("Recovered:")]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "text-center bg-gray-500 rounded-lg text-right px-2"
-                      },
-                      [_vm._v("130")]
-                    )
-                  ]
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "total flex px-6 py-4 justify-between mb-4" },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "bg-gray-100 rounded-lg px-2 py-2 w-1/4 shadow-lg"
-                  },
-                  [
-                    _c("div", { staticClass: "pb-2 text-center" }, [
-                      _vm._v("Total cases:")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "text-center bg-gray-300 rounded-lg" },
-                      [_vm._v("100")]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "bg-gray-100 rounded-lg px-2 py-2 w-1/4 shadow-lg"
-                  },
-                  [
-                    _c("div", { staticClass: "pb-2 text-center" }, [
-                      _vm._v("Total deaths:")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "text-center bg-gray-300 rounded-lg" },
-                      [_vm._v("100")]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "bg-gray-100 rounded-lg px-2 py-2 w-1/4 shadow-lg"
-                  },
-                  [
-                    _c("div", { staticClass: "pb-2 text-center" }, [
-                      _vm._v("Total recovered:")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "text-center bg-gray-300 rounded-lg" },
-                      [_vm._v("100")]
-                    )
-                  ]
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "new flex px-16 py-4 justify-around" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "bg-gray-100 rounded-lg px-2 py-2 w-1/3 shadow-lg"
-                },
-                [
-                  _c("div", { staticClass: "pb-2 text-center" }, [
-                    _vm._v("New cases:")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "text-center bg-gray-300 rounded-lg" },
-                    [_vm._v("100")]
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "bg-gray-100 rounded-lg px-2 py-2 w-1/3 shadow-lg"
-                },
-                [
-                  _c("div", { staticClass: "pb-2 text-center" }, [
-                    _vm._v("New deaths:")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "text-center bg-gray-300 rounded-lg" },
-                    [_vm._v("100")]
-                  )
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "active flex px-10 py-4 justify-around" },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "bg-gray-100 rounded-lg px-2 py-2 w-1/2 shadow-lg"
-                  },
-                  [
-                    _c("div", { staticClass: "pb-2 text-center" }, [
-                      _vm._v("Active cases:")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "text-center bg-gray-300 rounded-lg" },
-                      [_vm._v("100")]
-                    )
-                  ]
-                )
-              ]
-            )
-          ])
-        ])
-      ]
+      { staticClass: "top-image", staticStyle: { height: "200px" } },
+      [_c("img", { attrs: { src: "/img/medical.svg", alt: "" } })]
     )
   }
 ]
