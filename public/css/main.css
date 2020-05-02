@@ -19232,6 +19232,16 @@ video {
   height: 34rem;
 }
 
+.top-image{
+  height: 100px;
+}
+
+@media (min-width: 1024px) {
+  .top-image{
+    height:200px;
+  }
+}
+
 @media (min-width: 640px) {
   .sm\:space-y-0 > :not(template) ~ :not(template) {
     --space-y-reverse: 0;

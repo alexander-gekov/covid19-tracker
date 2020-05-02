@@ -1,6 +1,6 @@
 <template>
   <div class="tracker-container font-sans w-11/12 lg:w-7/12 overflow-hidden bg-gray-400 shadow-lg rounded-lg mb-4">
-    <div class="top-image" style="height:200px;">
+    <div class="top-image">
       <img src="/img/medical.svg" alt="">
     </div>
     <!--    Banner End-->

@@ -8,3 +8,13 @@
 .h-78{
   height: 34rem;
 }
+
+.top-image{
+  height: 100px;
+}
+
+@media (min-width: 1024px) {
+  .top-image{
+    height:200px;
+  }
+}

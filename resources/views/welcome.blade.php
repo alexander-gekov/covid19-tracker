@@ -12,7 +12,7 @@
     <title>Covid19 Tracker</title>
 </head>
 <body class="bg-gray-200">
-<div id="app" class="flex justify-center pt-8 lg:pt-14">
+<div id="app" class="flex justify-center pt-4 lg:pt-14">
     <covid-tracker></covid-tracker>
 </div>
 </body>
